@@ -16,7 +16,7 @@ void delete2dArray(T **&x, int numberOfRows) {
 
 template<class T>
 void make2dArray(T **&x, int numberOfRows, int *rowSize) {
-	x = new T * [numberOfRows];
+	x = new T * [numberOfRows];  // 创建numbersOfRows个T*型空间 用来存储行指针
 	for (int i = 0; i < numberOfRows; i++) {
 		x[i] = new T[rowSize[i]];
 	}
