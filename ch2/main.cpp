@@ -36,42 +36,56 @@ T horner(T coeff[], int n, const T &x) {
 }
 
 
-
-template<class T>
-void rank(T a[], int n, int r[]) {
-	// 给数组a[0:n-1]的n个元素排名次  input:4 3 9 3 7   output:2 0 4 1 3
-	// 结果在r[0:n-1]中返回
-
+template <typename T>
+void rank(T a[], int n, T r[]) {
 	for (int i = 0; i < n; i++) {
-		r[i] = 0; // 初始化
+		r[i] = 0;  //初始化
 	}
-	// 比较所有元素对
-
-	for (int i = 1; i < n; i++) {   // 从数组的第二个元素开始
-		for (int j = 0; j < i; j++) {   // 比较它与前面的元素
-			if (a[j] <= a[i]) r[i]++;
-			else    // 如果前面的值<=它  递增它的rank
-				r[j]++;  // 前面的值>它 递增该值的rank
-			// 这样做不会重复比较 重点在于只比较了每个元素前面的元素
+	for (int j = 1; j < n; j++) {
+		for (int i = 0; i < j; i++) {
+			if (a[i] <= a[j]) r[j]++;
+			else {
+				r[i]++;
+			}
 		}
 	}
 }
 
-template <class T>
-void rearrange(T a[], int n, T r[]) {
-	// 利用附加数组u[] 根据rank的计数排序 r[]是a[]的ranking
-	T *u = new T[n];
-	// 将a中元素赋给u  根据rank对应到各自的位置上
-	for (int i = 0; i < n; i++) {
-		u[r[i]] = a[i];
-	}
-	for (int i = 0; i < n; i++) {
-		a[i] = u[i];
-	}
-	delete[]u;
-
-
-}
+//template<class T>
+//void rank(T a[], int n, int r[]) {
+//	// 给数组a[0:n-1]的n个元素排名次  input:4 3 9 3 7   output:2 0 4 1 3
+//	// 结果在r[0:n-1]中返回
+//
+//	for (int i = 0; i < n; i++) {
+//		r[i] = 0; // 初始化
+//	}
+//	// 比较所有元素对
+//
+//	for (int i = 1; i < n; i++) {   // 从数组的第二个元素开始
+//		for (int j = 0; j < i; j++) {   // 比较它与前面的元素
+//			if (a[j] <= a[i]) r[i]++;
+//			else    // 如果前面的值<=它  递增它的rank
+//				r[j]++;  // 前面的值>它 递增该值的rank
+//			// 这样做不会重复比较 只比较了每个元素与它前面的元素
+//		}
+//	}
+//}
+//
+//template <class T>
+//void rearrange(T a[], int n, T r[]) {
+//	// 利用附加数组u[] 根据rank的计数排序 r[]是a[]的ranking
+//	T *u = new T[n];
+//	// 将a中元素赋给u  根据rank对应到各自的位置上
+//	for (int i = 0; i < n; i++) {
+//		u[r[i]] = a[i];
+//	}
+//	for (int i = 0; i < n; i++) {
+//		a[i] = u[i];
+//	}
+//	delete[]u;
+//
+//
+//}
 
 template<class T>
 int indexOfMax(T a[], int n) {
