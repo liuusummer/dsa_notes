@@ -41,6 +41,9 @@ void permutations(T list[], int k, int m) {
 	}
 }
 
+//使用STL算法next_permutation求排列
+// next_permutation(start,end,compare) 对范围[start,end)内的元素，按字典顺序
+// 产生下一个更大的排列。当且仅当这个排列存在时返回值为true
 template<class T>
 void permutationsVersion2(T list[], int m) {
 	// 对list[0:m-1]全排列
