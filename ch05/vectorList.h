@@ -59,6 +59,32 @@ vectorList<T>::vectorList(const vectorList<T> &theList) {
 	element = new vector<T>(*theList.element);
 }
 
+template <class T>
+void vectorList<T>::checkIndex(int theIndex)const {
+	if (theIndex < 0 || theIndex >= size()) {
+		std::ostringstream s;
+		s << "index = " << theIndex << " size = " << size();
+		throw illegalIndex(s.str());
+	} 
+}
+template <class T>
+T &vectorList<T>::get(int theIndex)const {
+	checkIndex(theIndex);
+	return (*element)[theIndex];
+}
+template <class T>
+int vectorList<T>::indexOf(const T &theElement)const {
+	int theIndex = (int)(find(element->begin(), element->end(), 
+		theElement) - element->begin());
+	if (theIndex == size()) {
+		// not found
+		return -1;
+	}
+	else {
+		return theIndex;
+	}
+}
+
 // erase
 template <class T>
 void vectorList<T>::erase(int theIndex) {
