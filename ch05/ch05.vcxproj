@@ -139,6 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\changeLength1D.h" />
+    <ClInclude Include="..\myExceptions.h" />
+    <ClInclude Include="arrayList.h" />
+    <ClInclude Include="linearList.h" />
+    <ClInclude Include="vectorList.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,115 +1,252 @@
-#include <iostream>
-#include <sstream>
-#include <algorithm>
-/* 定义自己的异常类*/
-class illegalParameterValue {
-public:
-	illegalParameterValue() :
-		message("Illegal parameter value") {
-	}
-	illegalParameterValue(std::string theMessage){
-		message = theMessage;
-	}
-	void outputMessage() { std::cout << message << std::endl; }
-private:
-	std::string message;
-};
+//#include <iostream>
+//#include "arrayList.h"
+///* test class arrayList */
+//int main() {
+//	using std::cout;
+//	using std::endl;
+//
+//	// test constructor
+//	arrayList<double> *x = new arrayList<double>(20);
+//	arrayList<int> y(2);
+//	arrayList<int> z;
+//
+//	// test capacity
+//	/*
+//	*** output: 20,2,10
+//	*/
+//	std::cout << "Capacity of x,y and z = "
+//		<< x->capacity() << ", "
+//		<< y.capacity() << ", "
+//		<< z.capacity() << std::endl;
+//
+//	// test size
+//	/*
+//	*** output:0,0,0
+//	*/
+//	std::cout << "Initial size of x,y and z = "
+//		<< x->size() << ", "
+//		<< y.size() << ", "
+//		<< z.size() << std::endl;
+//
+//	// test empty
+//	/*
+//	* ouput:x is empty
+//	*		y is empty
+//	*/
+//	if (x->empty()) 
+//		std::cout << "x is empty" << std::endl;
+//	else 
+//		std::cout << "x is not empty" << std::endl;
+//	if (y.empty()) 
+//		std::cout << "y is empty" << std::endl;
+//	else 
+//		std::cout << "y is not empty" << std::endl;
+//
+//	// test insert
+//	y.insert(0, 2);
+//	y.insert(1, 6);
+//	y.insert(0, 1);
+//	y.insert(2, 4);
+//	y.insert(3, 5);
+//	y.insert(2, 3);
+//	cout << "Inserted 6 integers, list y should be 1 2 3 4 5 6" << endl;
+//	cout << "Size of y = " << y.size() << endl;   // ouput:6
+//	cout << "Capacity of y = " << y.capacity() << endl;  // output:8
+//	if (y.empty()) 
+//		cout << "y is empty" << endl;
+//	else 
+//		cout << "y is not empty" << endl;
+//	y.output(cout);       // output:1 2 3 4 5 6
+//	cout << endl << "Testing overloaded <<" << endl;
+//	cout << y << endl;    // output:1 2 3 4 5 6
+//
+//	// test indexOf
+//	/*
+//	* output:The index of 4 is 3
+//	*/
+//	auto index = y.indexOf(4);
+//	if (index < 0) {
+//		cout << "4 not found" << endl;
+//	}
+//	else {
+//		cout << "The index of 4 is " << index << endl;
+//	}
+//
+//	/* output : 7 not found */
+//	index = y.indexOf(7);
+//	if (index < 0) cout << "7 not found" << endl;
+//	else cout << "The index of 7 is " << index << endl;
+//
+//	// test get
+//	cout << "Element with index 0 is " << y.get(0) << endl;
+//	cout << "Element with index 3 is " << y.get(3) << endl;
+//
+//	// test erase
+//	y.erase(1);
+//	cout << "Element 1 erased" << endl;
+//	cout << "The list is " << y << endl;
+//	y.erase(2);
+//	cout << "Element 2 erased" << endl;
+//	cout << "The list is " << y << endl;
+//
+//	cout << "Size of y = " << y.size() << endl;
+//	cout << "Capacity of y = " << y.capacity() << endl;
+//	if (y.empty()) cout << "y is empty" << endl;
+//	else cout << "y is not empty" << endl;
+//
+//	try { y.insert(-3, 0); }
+//	catch (illegalIndex e) {
+//		cout << "Illegal index exception" << endl;
+//		cout << "Insert index must be between 0 and list size" << endl;
+//		e.outputMessage();
+//	}
+//
+//	// test copy constructor
+//	arrayList<int> w(y);
+//	y.erase(0);
+//	y.erase(0);
+//	cout << "w should be old y, new y has first 2 elements removed" << endl;
+//	cout << "w is " << w << endl;
+//	cout << "y is " << y << endl;
+//}
 
 
-// 一个线性表的抽象描述
-template <class T>
-class linearList {
-public:
-	virtual ~linearList() {};
-	//当且仅当线性表为空返回true
-	virtual bool empty()const = 0;
-	// 返回线性表元素的个数
-	virtual int size()const = 0;
-	// 返回索引为theIndex的元素
-	virtual T &get(int theIndex)const = 0;
-	// 返回元素theElement第一次出现时的索引
-	virtual int indexOf(const T &theElement)const = 0;
-	// 删除索引为theIndex的元素
-	virtual void erase(int theIndex) = 0;
-	// 把theElement插入线性表中索引为theIndex的位置上
-	virtual void insert(int theIndex, const T &theElement) = 0;
-	// 把线性表插入输出流out
-	virtual void output(std::ostream &out)const = 0;
-};
+// test the class vectorList that uses a vector for the list elements
+#include<iostream>
+#include<numeric>
+#include<algorithm>   // has reverse
+#include<functional>  // has greater
+#include "linearList.h"
+#include "vectorList.h"
 
-//改变一个一维数组长度
-template<class T>
-void changeLength1D(T *&a, int oldLength, int newLength) {
-	if (newLength < 0) {
-		throw illegalParameterValue("new length must be >= 0");
-	}
-	T *temp = new T(newLength);   // 新数组
-	int number = std::min(oldLength, newLength);  // 需要复制的元素个数
-	std::copy(a, a + number, temp);
-	delete[]a;    // 释放老数组的内存空间
-	a = temp;
-}
-
-/*   
-* 定义抽象类linearList的派生类arrayList
-* arrayList是一个具体类，必须实现抽象类linearList的所有方法。还包括linearList没有声明的方法
-* 方法capacity给出的是数组element当前的长度
-* 方法checkIndex要确定一个元素在范围0到listSize-1内的索引
-*/
-template<class T>
-class arrayList :public linearList<T>{
-public:
-	// 构造函数、拷贝构造函数、析构函数
-	arrayList(int initialCapacity = 10);
-	arrayList(const arrayList<T> &);
-	~arrayList() { delete[]element; }
-
-	// ADT方法
-	bool empty()const { return listSize == 0; }
-	int size()const { return listSize; }
-	T &get(int theIndex)const;
-	int indexOf(const T &theElement)const;
-	void erase(int theIndex);
-	void insert(int theIndex, const T &theElement);
-	void output(std::ostream &out)const;
-
-	// 其他方法
-	int capacity()const { return arrayLength; }
-protected:
-	void checkIndex(int theIndex)const;
-				// 若索引theIndex无效，则抛出异常
-	T *element;    // 存储线性表元素的一维数组
-	int arrayLength;  // 一维数组的容量
-	int listSize;     // 线性表的元素个数
-};
-
-// 构造函数和拷贝构造函数
-template <class T>
-arrayList<T>::arrayList(int initialCapacity) { // 构造函数
-	if (initialCapacity < 1) {
-		std::ostringstream s;
-		s << "Initial Capacity = " << initialCapacity << " Must be > 0";
-		throw illegalParameterValue(s.str());
-	}
-	arrayLength = initialCapacity;
-	element = new T[arrayLength];
-	listSize = 0;
-}
-
-template <class T>
-arrayList<T>::arrayList(const arrayList<T> &theList) {   // 拷贝构造函数
-	arrayLength = theList.arrayLength;
-	listSize = theList.listSize;
-	element = new T[arrayLength];
-	std::copy(theList.element, theList.element + listSize, element);
-}
-
+using namespace std;
 
 int main() {
-	/*arrayList实例化*/
-	// 创建两个容量为100的线性表
-	// linearList<int> *x = new arrayList<int>(100);
-	arrayList<double> y(100);
+    // test constructor
+    linearList<double> *x = new vectorList<double>(20);
+    vectorList<int> y(2), z;
 
-	std::cout << y.size();
-}
+    // test capacity
+    cout << "Capacity of x, y and z = "
+        << ((vectorList<double>*) x)->capacity() << ", "
+        << y.capacity() << ", "
+        << z.capacity() << endl;
+
+
+    // test size
+    cout << "Initial size of x, y, and z = "
+        << x->size() << ", "
+        << y.size() << ", "
+        << z.size() << endl;
+
+    // test empty
+    if (x->empty()) cout << "x is empty" << endl;
+    else cout << "x is not empty" << endl;
+    if (y.empty()) cout << "y is empty" << endl;
+    else cout << "y is not empty" << endl;
+
+    // test insert
+    y.insert(0, 2);
+    y.insert(1, 6);
+    y.insert(0, 1);
+    y.insert(2, 4);
+    y.insert(3, 5);
+    y.insert(2, 3);
+    cout << "Inserted 6 integers, list y should be 1 2 3 4 5 6" << endl;
+    cout << "Size of y = " << y.size() << endl;
+    cout << "Capacity of y = " << y.capacity() << endl;
+    if (y.empty()) cout << "y is empty" << endl;
+    else cout << "y is not empty" << endl;
+    y.output(cout);
+    cout << endl << "Testing overloaded <<" << endl;
+    cout << y << endl;
+
+    // test indexOf
+    int index = y.indexOf(4);
+    if (index < 0) cout << "4 not found" << endl;
+    else cout << "The index of 4 is " << index << endl;
+
+    index = y.indexOf(7);
+    if (index < 0) cout << "7 not found" << endl;
+    else cout << "The index of 7 is " << index << endl;
+
+    // test get
+    cout << "Element with index 0 is " << y.get(0) << endl;
+    cout << "Element with index 3 is " << y.get(3) << endl;
+
+    // test erase
+    y.erase(1);
+    cout << "Element 1 erased" << endl;
+    cout << "The list is " << y << endl;
+    y.erase(2);
+    cout << "Element 2 erased" << endl;
+    cout << "The list is " << y << endl;
+
+    cout << "Size of y = " << y.size() << endl;
+    cout << "Capacity of y = " << y.capacity() << endl;
+    if (y.empty()) cout << "y is empty" << endl;
+    else cout << "y is not empty" << endl;
+
+    try { y.insert(-3, 0); }
+    catch (illegalIndex e) {
+        cout << "Illegal index exception" << endl;
+        cout << "Insert index must be between 0 and list size" << endl;
+        e.outputMessage();
+    }
+
+    // test copy constructor
+    vectorList<int> w(y);
+    y.erase(0);
+    y.erase(0);
+    cout << "w should be old y, new y has first 2 elements removed" << endl;
+    cout << "w is " << w << endl;
+    cout << "y is " << y << endl;
+
+    // a few more inserts, just for fun
+    y.insert(0, 4);
+    y.insert(0, 5);
+    y.insert(0, 6);
+    y.insert(0, 7);
+    cout << "y is " << y << endl;
+
+    // test iterator
+    cout << "Ouput using forward iterators pre and post ++" << endl;
+    for (vectorList<int>::iterator i = y.begin();
+        i != y.end(); i++)
+        cout << *i << "  ";
+    cout << endl;
+    for (vectorList<int>::iterator i = y.begin();
+        i != y.end(); ++i)
+        cout << *i << "  ";
+    cout << endl;
+
+    cout << "Ouput using backward iterators pre and post --" << endl;
+    for (vectorList<int>::iterator i = y.end();
+        i != y.begin(); cout << *(--i) << "  ");
+    cout << endl;
+    for (vectorList<int>::iterator i = y.end();
+        i != y.begin();)             {
+i--; cout << *i << "  "; *i += 1;} 
+                cout << endl;
+                cout << "Incremented by 1 list is " << y << endl;
+
+                // try out some STL algorithms
+                reverse(y.begin(), y.end());
+                cout << "The reversed list is " << y << endl;
+                int sum = accumulate(y.begin(), y.end(), 0);
+                cout << "The sum of the elements is " << sum << endl;
+                sort(y.begin(), y.end());
+                cout << "The sorted list is " << y << endl;
+                sort(y.begin(), y.end(), greater<int>());
+                cout << "The list is descending order is " << y << endl;
+                return 0;
+            }
+
+
+
+
+
+
+
+
+
