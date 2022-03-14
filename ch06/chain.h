@@ -1,6 +1,7 @@
 #ifndef CHAIN_H_
 #define CHAIN_H_
 #include <iostream>
+#include <sstream>
 #include "D:\\dsa_notes\\ch05\\linearList.h"
 #include "D:\\dsa_notes\\myExceptions.h"
 // 链表节点的结构定义
@@ -119,7 +120,87 @@ T &chain<T>::get(int theIndex)const {
 	return currentNode->element;
 }
 
+template <class T>
+int chain<T>::indexOf(const T &theElement)const {
+	// 返回元素theElment首次出现的索引
+	// 若该元素不存在，返回-1
+	chainNode<T> *currentNode = firstNode;
+	int index = 0;  // 当前节点的索引
+	while (currentNode != nullptr && currentNode->element != theElement) {
+		currentNode = currentNode->next;
+		index++;
+	}
+	// 确定是否找到所需的元素
+	if (currentNode == nullptr) {
+		return -1;
+	}
+	else {
+		return index;
+	}
+}
 
+template <class T>
+void chain<T>::erase(int theIndex) {
+	// 删除索引为index的元素
+	
+	// 若该索引不存在，则抛出异常
+	checkIndex(theIndex);
 
-
+	// 索引有效，需找到要删除的元素节点
+	chainNode<T> *deleteNode;  // deleteNode 指向要删除的节点
+	if (theIndex == 0) {
+		// 删除链表的首节点
+		deleteNode = firstNode;
+		firstNode = firstNode->next;
+	}
+	else {
+		// 其他节点
+		// 用指针p指向要删除的前驱节点
+		chainNode<T> *p = firstNode;
+		for (int i = 0; i < theIndex-1; i++) {
+			p = p->next;
+		}
+		deleteNode = p->next;
+		p->next = p->next->next;   // 删除deleteNode指向的节点
+	}
+	listSize--;
+	delete deleteNode;
+}
+template <class T>
+void chain<T>::insert(int theIndex, const T &theElement) {
+	// 插入元素theElement并使其索引为theIndex
+	if (theIndex <0 || theIndex>listSize) {
+		// 无效索引
+		std::ostringstream s;
+		s << "theIndex = " << theIndex << ",listSize = " << listSize;
+		throw illegalIndex(s.str());
+	}
+	// 在链表头插入
+	if (theIndex == 0) {
+		firstNode = new chainNode<T>(theElement, firstNode);
+	}
+	else {
+		// 其他位置,找到索引为index-1的元素   即新元素的前驱
+		chainNode<T> *p = firstNode;
+		for (int i = 0; i < theIndex - 1; i++) {
+			p = p->next;
+		}
+		// 在p之后插入
+		p->next = new chainNode<T>(theElement, p->next);
+	}
+	listSize++;
+}
+template <class T>
+void chain<T>::output(std::ostream &out)const {
+	chainNode<T> *currentNode = firstNode;
+	while (currentNode != nullptr) {
+		out << currentNode->element << " ";
+		currentNode = currentNode->next;
+	}
+}
+template <class T>
+std::ostream &operator<<(std::ostream &os, const chain<T> &ch) {
+	ch.output(os);
+	return os;
+}
 #endif
