@@ -38,6 +38,7 @@ public:
 	void erase(int theIndex);
 	void insert(int theIndex, const T &theElement);
 	void output(std::ostream &out)const;
+	void binSort(int range);
 
 protected:
 	void checkIndex(int theIndex)const;
@@ -176,7 +177,7 @@ void chain<T>::insert(int theIndex, const T &theElement) {
 		throw illegalIndex(s.str());
 	}
 	// 在链表头插入
-	if (theIndex == 0) {
+	if (theIndex == 0) {                                                                                                                                                                                                                      
 		firstNode = new chainNode<T>(theElement, firstNode);
 	}
 	else {
@@ -202,5 +203,36 @@ template <class T>
 std::ostream &operator<<(std::ostream &os, const chain<T> &ch) {
 	ch.output(os);
 	return os;
+}
+template <class T>
+void chain<T>::binSort(int range) {// 对链表中的节点排序
+	
+	// 创建并初始化箱子
+	/* ****每个箱子都以底部节点作为首节点，顶部节点作为尾节点 
+	*******每个箱子都有两个指针，分别存储在数组bottem和top中，分别指向尾节点和头节点
+	*******bottem[theBin]指向箱子theBin的尾节点
+	* *****top[theBin]指向箱子theBin的首节点
+	*/
+	chainNode<T> **bottem, **top;
+	bottom = new chainNode<T>*[range + 1];
+	top = new chainNode<T>*[range + 1];   // 指向节点的指针的数组  bottem[i]是指向节点的指针
+
+	for (int b = 0; b <= range; b++) {
+		bottem[b] = nullptr;
+	}
+
+	// 把链表的节点分配到箱子
+	for (; firstNode != nullptr; fitstNode = firstNode->next) {
+		// 把首节点firstNode添加到箱子中
+		int theBin = firstNode->element;   // 元素类型转换为int
+		if (bottem[theBin] == nullptr) {  // 箱子为空
+			bottem[theBin] = top[theBin] = firstNode;
+		}
+		else {  // 箱子不空
+			top[theBin]->next = firstNode;
+			top[theBin] = firstNode;
+
+		}
+	}
 }
 #endif
