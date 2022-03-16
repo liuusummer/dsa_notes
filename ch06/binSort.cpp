@@ -48,17 +48,17 @@ void binSort(chain<StudentRecord> &theChain, int range) {
 	delete[]bin;
 }
 
-int main() {
-	StudentRecord s;
-	chain<StudentRecord> c;
-	for (int i = 2; i <= 20; i=i+2) {
-		s.score = i / 2;
-		s.name = new string(s.score,'a');
-		c.insert(0, s);
-	}
-	cout << "The unsorted chain is " << endl;
-	cout << " " << c << endl;
-	binSort(c, 10);
-	cout << "The sorted chain is " << endl;
-	cout << " " << c << endl;
-} 
+//int main() {
+//	StudentRecord s;
+//	chain<StudentRecord> c;
+//	for (int i = 2; i <= 20; i=i+2) {
+//		s.score = i / 2;
+//		s.name = new string(s.score,'a');
+//		c.insert(0, s);
+//	}
+//	cout << "The unsorted chain is " << endl;
+//	cout << " " << c << endl;
+//	binSort(c, 10);
+//	cout << "The sorted chain is " << endl;
+//	cout << " " << c << endl;
+//} 

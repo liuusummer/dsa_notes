@@ -213,26 +213,47 @@ void chain<T>::binSort(int range) {// 对链表中的节点排序
 	*******bottem[theBin]指向箱子theBin的尾节点
 	* *****top[theBin]指向箱子theBin的首节点
 	*/
-	chainNode<T> **bottem, **top;
+	chainNode<T> **bottom, **top;
 	bottom = new chainNode<T>*[range + 1];
 	top = new chainNode<T>*[range + 1];   // 指向节点的指针的数组  bottem[i]是指向节点的指针
 
 	for (int b = 0; b <= range; b++) {
-		bottem[b] = nullptr;
+		bottom[b] = nullptr;
 	}
 
 	// 把链表的节点分配到箱子
-	for (; firstNode != nullptr; fitstNode = firstNode->next) {
+	for (; firstNode != nullptr; firstNode = firstNode->next) {
 		// 把首节点firstNode添加到箱子中
 		int theBin = firstNode->element;   // 元素类型转换为int
-		if (bottem[theBin] == nullptr) {  // 箱子为空
-			bottem[theBin] = top[theBin] = firstNode;
+		if (bottom[theBin] == nullptr) {  // 箱子为空
+			bottom[theBin] = top[theBin] = firstNode;
 		}
 		else {  // 箱子不空
 			top[theBin]->next = firstNode;
 			top[theBin] = firstNode;
-
 		}
 	}
+
+	// 把箱子中的节点收集到有序链表中
+	chainNode<T> *y = nullptr;
+	for (int theBin = 0; theBin <= range; theBin++) {
+		if (bottom[theBin] != nullptr) {   // 如果箱子非空
+			if (y == nullptr) {   // 对于第一个非空箱
+				firstNode = bottom[theBin];  // firstNode
+				y = top[theBin];  // 让y指向箱子顶部元素
+			}
+			else {    // 不是第一个非空箱
+				y->next = bottom[theBin];// y是上一个箱子顶部元素
+								// y-next 指向新箱子的底部
+				y = top[theBin];  // 再让y指向新箱子顶部元素
+			}
+		}
+	}
+
+	if (y != nullptr) {
+		y->next = nullptr;
+	}
+	delete[]bottom;
+	delete[]top;
 }
 #endif
