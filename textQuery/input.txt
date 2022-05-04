@@ -1,0 +1,21 @@
+In the courses related to drawing circuits in colleges and universities, 
+as well as in the homework submission system that requires drawing circuit diagrams
+there has not yet been a web client that is common to teachers and students
+with a simple interface, used for electronic circuit drawing.
+All colleges and universities are basically in use large commercial software such as Multisim.
+This research is based on HTML, CSS, JavaScript front-end language,
+Java back-end language, 
+SSM framework (Spring + SpringMVC + MyBatis) 
+and canvas graphics API to develop a lightweight, 
+and webpage-based drawing software that interacts with the back-end MySQL storage component database, 
+and gradually improved to make its interface simpler, 
+more user-friendly, and convenient for users to use and manage.
+This software can realize the functions of adding, 
+deleting, rotating and connecting basic circuit devices. 
+Its greater advantage is that in the component library management interface,
+it can be modified based on existing components, instead of writing component data in the source code, 
+which is convenient and quick.
+After the software was completed, 
+a series of tests were carried out according to specific requirements. 
+The test results are consistent with expectations, and the drawing task of the circuit diagram can be completed to meet the design requirements.
+
