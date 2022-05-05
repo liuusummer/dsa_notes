@@ -87,6 +87,23 @@ public:
 	}
 	std::string &deref()const;
 	StrBlobPtr &incr(); // 前缀递增
+
+	// 递增和递减运算符
+	StrBlobPtr &operator++();
+	StrBlobPtr &operator--();
+	// 递增和递减运算符(后置版本)
+	StrBlobPtr operator++(int);
+	StrBlobPtr operator--(int);
+
+	// 解引用运算符*
+	std::string &operator*()const {
+		auto p = check(curr, "deference past end");
+		return (*p)[curr];
+	}
+	// 箭头运算符->
+	std::string *operator->()const {
+		return & this->operator*();
+	}
 private:
 	// 若检查成功，check返回一个指向vector的shard_ptr
 	std::shared_ptr<std::vector<std::string>>
@@ -128,6 +145,25 @@ StrBlobPtr StrBlob::end() {
 	return ret;
 }
 
+StrBlobPtr &StrBlobPtr::operator++() {
+	check(curr, "increment past end of StrBlobPtr");
+	++curr;
+	return *this;
+}
+StrBlobPtr &StrBlobPtr::operator--() {
+	--curr;
+	check(curr, "decrement past begin of StrBlobPtr");
+	return *this;
+}
 
-
+StrBlobPtr StrBlobPtr::operator++(int) {
+	StrBlobPtr ret = *this;
+	++ *this;
+	return ret;
+}
+StrBlobPtr StrBlobPtr::operator--(int) {
+	StrBlobPtr ret = *this;
+	-- *this;
+	return ret;
+}
 #endif

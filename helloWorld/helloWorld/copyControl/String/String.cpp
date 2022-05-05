@@ -115,3 +115,8 @@ String &String::operator=(String &&rhs)noexcept {
 std::string String::str() const {
     return std::string(cbegin(), cend());
 }
+
+std::ostream &operator<<(std::ostream &os, const String &s) {
+    os << s.str();
+    return os;
+}

@@ -43,5 +43,8 @@ int main() {
 
 	StrVec sv2{ "il1", "il2", "il3", "il4", "il5" }; print(sv2);
 	StrVec sv3 = { "il1", "il2", "il3", "il4", "il5" }; print(sv3);
+
+	sv3[1] = "test";
+	print(sv3);
 	return 0;
 }

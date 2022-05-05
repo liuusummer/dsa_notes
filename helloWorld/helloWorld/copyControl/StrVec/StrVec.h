@@ -35,6 +35,14 @@ public:
 	void reserve(size_t);
 	void resize(size_t,const std::string & = std::string());
 
+	// 重载下标
+	std::string &operator[](std::size_t n) {
+		return elements[n];
+	}
+	const std::string &operator[](std::size_t n)const {
+		return elements[n];
+	}
+
 private:
 	static std::allocator<std::string> alloc;   // 分配元素
 

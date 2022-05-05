@@ -18,6 +18,7 @@ class Sales_data {
 	friend std::ostream &operator<<(std::ostream &, const Sales_data &);
 	// operator +
 	friend Sales_data operator+(const Sales_data &, const Sales_data &);
+	
 public:
 	Sales_data &operator+=(const Sales_data &);
 	// 四个构造函数
@@ -40,6 +41,8 @@ public:
 	Sales_data &combine(Sales_data);
 
 	
+	
+
 
 private:
 	double avg_price()const;

@@ -1,9 +1,11 @@
 #ifndef String_h_
 #define String_h_
+#include <iostream>
 #include <initializer_list>
 #include <memory>
 #include <string>
 class String {
+	friend std::ostream &operator<<(std::ostream &, const String &);
 public:
 	using size_type = size_t;
 	using iterator = char *;
@@ -53,7 +55,7 @@ private:
 	void free();
 };
 
-
+std::ostream &operator<<(std::ostream &, const String &);
 
 
 #endif
