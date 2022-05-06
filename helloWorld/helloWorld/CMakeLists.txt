@@ -16,6 +16,7 @@ add_executable (HasPtrLikeValue "copyControl/HasPtrLikeValue/HasPtrLikeValue.cpp
 add_executable (MessageAndFolder "copyControl/MessageAndFolder/main.cpp")
 add_executable (StrVec "copyControl/StrVec/main.cpp")
 add_executable (StringSelf "copyControl/String/usingString.cpp" "copyControl/String/String.cpp")
+add_executable (Quote  "OOP/usingQuote.cpp")
 
 
 # TODO: 如有需要，请添加测试并安装目标。
