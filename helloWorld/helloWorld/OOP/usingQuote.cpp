@@ -16,16 +16,15 @@ int main() {
 	//print_total(std::cout, basic, 20);
 	//print_total(std::cout, bulk, 20);
 
-	/*Quote &r1 = basic;
-	Quote &r2 = bulk;
-	Quote &r3 = limit;*/
-	/*r1.debug();
-	r2.debug();
-	r3.debug();*/
-	basic.debug();
-	bulk.debug();
-	limit.debug();
+	
 
+	print_total(std::cout, basic, 20);
+	print_total(std::cout, bulk, 20);
+	print_total(std::cout, limit, 20);
+
+	basic.debug(std::cout) << std::endl;
+	bulk.debug(std::cout) << std::endl;
+	limit.debug(std::cout) << std::endl;
 
 
 
