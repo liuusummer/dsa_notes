@@ -52,6 +52,8 @@ public:
 		shared_ptr<vector<string>> f)
 		:sought(s), lines(p), file(f) {
 	};
+
+
 private:
 	string sought;  // 查询单词
 	shared_ptr<set<TextQuery::line_no>> lines;  // 出现的行号
