@@ -5,7 +5,7 @@
 template <class T>
 class linearList {
 public:
-	virtual ~linearList() {};
+	virtual ~linearList() {};   // 改
 	//当且仅当线性表为空返回true
 	virtual bool empty()const = 0;
 	// 返回线性表元素的个数

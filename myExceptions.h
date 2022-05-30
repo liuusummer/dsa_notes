@@ -4,7 +4,9 @@
 #define myExceptions_
 #include <string>
 #include <iostream>
-using namespace std;
+using std::endl;
+using std::cout;
+using std::string;
 
 // illegal parameter value
 class illegalParameterValue {
